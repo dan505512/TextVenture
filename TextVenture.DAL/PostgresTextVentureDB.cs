@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Npgsql;
 using TextVenture.Core;
+using TextVenture.Core.Implementations.Adventure;
+using TextVenture.Core.Implementations.Characters;
 using TextVenture.Core.Implementations.Items;
+using TextVenture.Core.Interfaces.Adventure;
+using TextVenture.Core.Interfaces.Characters;
+using TextVenture.Core.Interfaces.Items;
 
 namespace TextVenture.DAL
 {
@@ -31,15 +37,89 @@ namespace TextVenture.DAL
 
         public List<IItem> GetAllItems()
         {
-            using var cmd = new NpgsqlCommand("Select i.\"ID\", i.\"Name\", t.\"Name\", i.\"Effect_Level\" from public.\"Items\" i JOIN public.\"Item_Type\" t on t.\"ID\" = i.\"Item_Type\"", _connection);
-            var dataReader = cmd.ExecuteReader();
-            var items = new List<IItem>();
-            while (dataReader.Read())
-            {
-                items.Add(GetItemFromRow(dataReader));
-            }
+            return PerformGenericGetAll(ITEMS_QUERY, GetItemFromRow);
+        }
 
-            return items;
+        public IItem GetItemById(int id)
+        {
+            using var query = new NpgsqlCommand(ITEMS_QUERY + " WHERE i.\"ID\" = @id", _connection);
+            
+            query.Parameters.AddWithValue("id", id);
+            query.Prepare();
+
+            using var dataReader = query.ExecuteReader();
+            return dataReader.Read() ? GetItemFromRow(dataReader) : null;
+        }
+
+        public List<IEnemy> GetAllEnemies()
+        {
+            return PerformGenericGetAll(ENEMIES_QUERY, GetEnemyFromRow);
+        }
+
+        public IEnemy GetEnemyById(int id)
+        {
+            return PerformGenericGetById(ENEMIES_QUERY, GetEnemyFromRow, id);
+        }
+
+        public bool UpdateEnemy(IEnemy enemy)
+        {
+            try
+            {
+                using var query = new NpgsqlCommand(ENEMY_UPDATE_QUERY, _connection);
+                query.Parameters.AddWithValue("enemyName", enemy.Name);
+                query.Parameters.AddWithValue("health", enemy.Health);
+                query.Parameters.AddWithValue("minDamage", enemy.MinDamage);
+                query.Parameters.AddWithValue("maxDamage", enemy.MaxDamage);
+                query.Parameters.AddWithValue("id", enemy.Id);
+                query.Prepare();
+
+                query.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool InsertEnemy(string name, int health, int minDamage, int maxDamage)
+        {
+            try
+            {
+                using var query = new NpgsqlCommand(ENEMY_INSERT_QUERY, _connection);
+                query.Parameters.AddWithValue("name", name);
+                query.Parameters.AddWithValue("health", health);
+                query.Parameters.AddWithValue("minDamage", minDamage);
+                query.Parameters.AddWithValue("maxDamage", maxDamage);
+                query.Prepare();
+
+                query.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public List<ILocation> GetAllLocations()
+        {
+            return PerformGenericGetAll(LOCATION_QUERY, GetLocationFromRow);
+        }
+
+        public ILocation GetLocationById(int id)
+        {
+            return PerformGenericGetById(LOCATION_QUERY, GetLocationFromRow, id);
+        }
+
+        public List<IAdventure> GetAllAdventures()
+        {
+            return PerformGenericGetAll(ADVENTURES_QUERY, getAdventureFromRow);
+        }
+
+        public IAdventure GetAdventureById(int id)
+        {
+            return PerformGenericGetById(ADVENTURES_QUERY, getAdventureFromRow, id);
         }
 
         /// <summary>
@@ -50,6 +130,32 @@ namespace TextVenture.DAL
             _connection.Close();
             _connection.Dispose();
             _connection = null;
+        }
+
+        private List<T> PerformGenericGetAll<T>(string queryString, GetObjectFromDbRow<T> resolver)
+        {
+            using var query = new NpgsqlCommand(queryString, _connection);
+            using var dataReader = query.ExecuteReader();
+            var itemList = new List<T>();
+
+            while (dataReader.Read())
+            {
+                itemList.Add(resolver(dataReader));
+            }
+
+            return itemList;
+        }
+
+        private T PerformGenericGetById<T>(string queryString, GetObjectFromDbRow<T> resolver, int id)
+        {
+            using var query = new NpgsqlCommand(queryString + " WHERE i.\"ID\" = @id", _connection);
+
+            query.Parameters.AddWithValue("id", id);
+            query.Prepare();
+
+            using var dataReader = query.ExecuteReader();
+            dataReader.Read();
+            return resolver(dataReader);
         }
 
         private IItem GetItemFromRow(NpgsqlDataReader reader)
@@ -67,5 +173,77 @@ namespace TextVenture.DAL
                     throw new NotImplementedException("Given item type is not implemented");
             }
         }
+
+        private IEnemy GetEnemyFromRow(NpgsqlDataReader reader)
+        {
+            var id = reader.GetInt32(0);
+            var name = reader.GetString(1);
+            var health = reader.GetInt32(2);
+            var minDamage = reader.GetInt32(3);
+            var maxDamage = reader.GetInt32(4);
+            return new StandardEnemy(id, name, health, minDamage, maxDamage);
+        }
+
+        private ILocation GetLocationFromRow(NpgsqlDataReader reader)
+        {
+            var id = reader.GetInt32(0);
+            var name = reader.GetString(1);
+            var description = reader.GetString(2);
+            var north = reader.GetFieldValue<int?>(3);
+            var south = reader.GetFieldValue<int?>(4);
+            var east = reader.GetFieldValue<int?>(5);
+            var west = reader.GetFieldValue<int?>(6);
+            var item = reader.GetInt32(7);
+            var enemy = reader.GetFieldValue<int?>(8);
+            return new StandardLocation(id, name, description, north, south, east, west, item, enemy);
+        }
+
+        private IAdventure getAdventureFromRow(NpgsqlDataReader reader)
+        {
+            var id = reader.GetInt32(0);
+            var name = reader.GetString(1);
+            var description = reader.GetString(2);
+            var startingLocation = reader.GetInt32(3);
+            return new Adventure(id, name, description, startingLocation);
+        }
+
+        #region Queries
+
+        #region Get
+        /// <summary>
+        /// This query returns all items. Items have {ID, Name, Type, Effect_Level}
+        /// </summary>
+        private const string ITEMS_QUERY = "Select i.\"ID\", i.\"Name\", t.\"Name\", i.\"Effect_Level\" from public.\"Items\" i JOIN public.\"Item_Type\" t on t.\"ID\" = i.\"Item_Type\"";
+
+        private const string ENEMIES_QUERY =
+            "Select \"ID\", \"Name\", \"Health\", \"Min_Damage\", \"Max_Damage\" from public.\"Enemies\" i";
+
+        private const string LOCATION_QUERY =
+            "SELECT i.\"ID\", i.\"Name\", i.\"Description\", i.\"North\", i.\"South\", i.\"East\", i.\"West\", i.\"Item\", i.\"Enemy\" from public.\"Location\" i";
+
+        private const string ADVENTURES_QUERY =
+            "SELECT i.\"ID\", i.\"Name\", i.\"Description\", i.\"Starting_Location\" from public.\"Advanture\" i"; 
+        #endregion
+
+        #region Update
+
+        private const string ENEMY_UPDATE_QUERY =
+            "UPDATE public.\"Enemies\"\r\n\tSET \"Name\"=@enemyName, \"Health\"=@health, \"Min_Damage\"=@minDamage," +
+            " \"Max_Damage\"=@maxDamage\r\n\tWHERE \"ID\"=@id;";
+
+        #endregion
+
+        #region Insert
+
+        private const string ENEMY_INSERT_QUERY =
+            "INSERT INTO public.\"Enemies\"(\r\n\t\"Name\", \"Health\", \"Min_Damage\", \"Max_Damage\")\r\n\tVALUES (@name, @health, @minDamage, @maxDamage);";
+
+        #endregion
+
+        #endregion
+
+        private delegate T GetObjectFromDbRow<T>(NpgsqlDataReader reader);
     }
+
+    
 }

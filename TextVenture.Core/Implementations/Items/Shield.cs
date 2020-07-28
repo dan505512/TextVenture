@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TextVenture.Core.Interfaces;
+using TextVenture.Core.Interfaces.Items;
 
 namespace TextVenture.Core.Implementations.Items
 {

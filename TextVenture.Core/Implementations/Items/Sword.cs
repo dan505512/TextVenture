@@ -1,4 +1,4 @@
-﻿using TextVenture.Core.Interfaces;
+﻿using TextVenture.Core.Interfaces.Items;
 
 namespace TextVenture.Core.Implementations.Items
 {
