@@ -19,10 +19,10 @@ namespace TextVenture.Core.Implementations.Characters
         }
 
         public int Id { get; }
-        public string Name { get; }
-        public int Health { get; private set; }
-        public int MinDamage { get; }
-        public int MaxDamage { get; }
+        public string Name { get; set; }
+        public int Health { get; set; }
+        public int MinDamage { get; set; }
+        public int MaxDamage { get; set;  }
         public int AttackPlayer(int currentPlayerHealth)
         {
             var random = new Random();
