@@ -98,9 +98,30 @@ namespace TextVenture.DAL
         ILocation GetLocationById(int id);
 
         /// <summary>
+        /// Inserts a new location into the DB
+        /// </summary>
+        /// <param name="name">The name of the location</param>
+        /// <param name="description">A description of the location</param>
+        /// <param name="north">The ID of the location to the north of this location</param>
+        /// <param name="south">The ID of the location to the south of this location</param>
+        /// <param name="east">The ID of the location to the east of this location</param>
+        /// <param name="west">The ID of the location to the west of this location</param>
+        /// <param name="enemy">An enemy at this location</param>
+        /// <param name="item">An item at this location</param>
+        /// <returns>True if success. False otherwise</returns>
+        bool InsertLocation(string name, string description, int? north, int? south, int? east, int? west, int? enemy, int? item);
+
+        /// <summary>
+        /// Updates a location in the DB
+        /// </summary>
+        /// <param name="location">The updated location</param>
+        /// <returns>True if success. False otherwise</returns>
+        bool UpdateLocation(ILocation location);
+
+        /// <summary>
         /// Gets a list of all the adventures in the DB
         /// </summary>
-        /// <returns>All the v in the DB</returns>
+        /// <returns>All the adventures in the DB</returns>
         List<IAdventure> GetAllAdventures();
 
         /// <summary>
@@ -110,5 +131,7 @@ namespace TextVenture.DAL
         /// <returns>The adventure from the DB</returns>
 
         IAdventure GetAdventureById(int id);
+
+        
     }
 }

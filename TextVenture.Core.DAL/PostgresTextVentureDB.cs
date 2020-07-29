@@ -155,6 +155,60 @@ namespace TextVenture.DAL
             return PerformGenericGetById(LOCATION_QUERY, GetLocationFromRow, id);
         }
 
+        public bool InsertLocation(string name, string description, int? north, int? south, int? east, int? west, int? enemy,
+            int? item)
+        {
+            try
+            {
+                using var query = new NpgsqlCommand(LOCATION_INSERT_QUERY, _connection);
+                query.Parameters.AddWithValue("name", name);
+                query.Parameters.AddWithValue("description", description);
+                AddParamOrNull("north", north, query);
+                AddParamOrNull("south", south, query);
+                AddParamOrNull("east", east, query);
+                AddParamOrNull("west", west, query);
+                AddParamOrNull("item", item, query);
+                AddParamOrNull("enemy", enemy, query);
+
+                query.Prepare();
+
+                query.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool UpdateLocation(ILocation location)
+        {
+            try
+            {
+                using var query = new NpgsqlCommand(LOCATION_UPDATE_QUERY, _connection);
+                query.Parameters.AddWithValue("name", location.Name);
+                query.Parameters.AddWithValue("description", location.Description);
+                AddParamOrNull("north", location.North, query);
+                AddParamOrNull("south", location.South, query);
+                AddParamOrNull("east", location.East, query);
+                AddParamOrNull("west", location.West, query);
+                AddParamOrNull("item", location.Item, query);
+                AddParamOrNull("enemy", location.Enemy, query);
+                query.Parameters.AddWithValue("id", location.Id);
+
+                query.Prepare();
+
+                query.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         public List<IAdventure> GetAllAdventures()
         {
             return PerformGenericGetAll(ADVENTURES_QUERY, getAdventureFromRow);
@@ -258,6 +312,18 @@ namespace TextVenture.DAL
             return new Adventure(id, name, description, startingLocation);
         }
 
+        private void AddParamOrNull(string paramId, object param, NpgsqlCommand query)
+        {
+            if (param == null)
+            {
+                query.Parameters.AddWithValue(paramId, DBNull.Value);
+            }
+            else
+            {
+                query.Parameters.AddWithValue(paramId, param);
+            }
+        }
+
         #region Queries
 
         #region Get
@@ -288,6 +354,9 @@ namespace TextVenture.DAL
         private const string ITEM_UPDATE_QUERY =
             "UPDATE public.\"Items\"\r\n\tSET \"Name\"=@name, \"Effect_Level\"=@effectLevel\r\n\tWHERE \"ID\" = @id;";
 
+        private const string LOCATION_UPDATE_QUERY =
+            "UPDATE public.\"Location\"\r\n\tSET \"Name\"=@name, \"Description\"=@description, \"North\"=@north, \"South\"=@south, \"East\"=@east, \"West\"=@west, \"Item\"=@item, \"Enemy\"=@enemy\r\n\tWHERE \"ID\"=@id;";
+
         #endregion
 
         #region Insert
@@ -297,6 +366,9 @@ namespace TextVenture.DAL
 
         private const string ITEM_INSERT_QUERY =
             "INSERT INTO public.\"Items\"(\r\n\t\"Name\", \"Item_Type\", \"Effect_Level\")\r\n\tVALUES (@name, @type, @effectLevel);";
+
+        private const string LOCATION_INSERT_QUERY =
+            "INSERT INTO public.\"Location\"(\r\n\t\"Name\", \"Description\", \"North\", \"South\", \"East\", \"West\", \"Item\", \"Enemy\")\r\n\tVALUES (@name, @description, @north, @south, @east, @west, @item, @enemy);";
 
         #endregion
 

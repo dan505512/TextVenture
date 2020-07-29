@@ -17,7 +17,7 @@ using TextVenture.DAL;
 namespace TextVenture.Admin.WebView.Controllers
 {
     /// <summary>
-    /// An admin panel controller to get and set enemy details
+    /// An admin panel controller to get and set item details
     /// </summary>
     [Route("api/[controller]/[action]")]
     public class ItemsController : Controller
