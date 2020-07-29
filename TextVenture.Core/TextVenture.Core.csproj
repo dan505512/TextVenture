@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Implementations\Adventure\StandardLocation.cs" />
     <Compile Include="Implementations\Characters\StandardEnemy.cs" />
+    <Compile Include="Implementations\Items\ItemType.cs" />
     <Compile Include="Implementations\Items\Posion.cs" />
     <Compile Include="Implementations\Items\Shield.cs" />
     <Compile Include="Implementations\Items\Sword.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Interfaces\Items\IDefenseItem.cs" />
     <Compile Include="Interfaces\Items\IHealthItem.cs" />
     <Compile Include="Interfaces\Items\IItem.cs" />
+    <Compile Include="Interfaces\Items\IItemsType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

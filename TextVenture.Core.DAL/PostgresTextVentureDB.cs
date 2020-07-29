@@ -51,6 +51,49 @@ namespace TextVenture.DAL
             return dataReader.Read() ? GetItemFromRow(dataReader) : null;
         }
 
+        public List<IItemsType> GetAllItemTypes()
+        {
+            return PerformGenericGetAll(ITEM_TYPES_QUERY, GetItemsTypeFromRow);
+        }
+
+        public bool InsertItem(string name, int effectLevel, int type)
+        {
+            try
+            {
+                using var query = new NpgsqlCommand(ITEM_INSERT_QUERY, _connection);
+                query.Parameters.AddWithValue("name", name);
+                query.Parameters.AddWithValue("type", type);
+                query.Parameters.AddWithValue("effectLevel", effectLevel);
+                query.Prepare();
+
+                query.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool UpdateItem(int id, string name, int effectLevel)
+        {
+            try
+            {
+                using var query = new NpgsqlCommand(ITEM_UPDATE_QUERY, _connection);
+                query.Parameters.AddWithValue("name", name);
+                query.Parameters.AddWithValue("effectLevel", effectLevel);
+                query.Parameters.AddWithValue("id", id);
+                query.Prepare();
+
+                query.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         public List<IEnemy> GetAllEnemies()
         {
             return PerformGenericGetAll(ENEMIES_QUERY, GetEnemyFromRow);
@@ -174,6 +217,14 @@ namespace TextVenture.DAL
             }
         }
 
+        private IItemsType GetItemsTypeFromRow(NpgsqlDataReader reader)
+        {
+            var id = reader.GetInt32(0);
+            var name = reader.GetString(1);
+
+            return new ItemType(id, name);
+        }
+
         private IEnemy GetEnemyFromRow(NpgsqlDataReader reader)
         {
             var id = reader.GetInt32(0);
@@ -223,6 +274,9 @@ namespace TextVenture.DAL
 
         private const string ADVENTURES_QUERY =
             "SELECT i.\"ID\", i.\"Name\", i.\"Description\", i.\"Starting_Location\" from public.\"Advanture\" i"; 
+
+        private const string ITEM_TYPES_QUERY = "SELECT i.\"ID\", i.\"Name\"from public.\"Item_Type\" i"; 
+
         #endregion
 
         #region Update
@@ -231,12 +285,18 @@ namespace TextVenture.DAL
             "UPDATE public.\"Enemies\"\r\n\tSET \"Name\"=@enemyName, \"Health\"=@health, \"Min_Damage\"=@minDamage," +
             " \"Max_Damage\"=@maxDamage\r\n\tWHERE \"ID\"=@id;";
 
+        private const string ITEM_UPDATE_QUERY =
+            "UPDATE public.\"Items\"\r\n\tSET \"Name\"=@name, \"Effect_Level\"=@effectLevel\r\n\tWHERE \"ID\" = @id;";
+
         #endregion
 
         #region Insert
 
         private const string ENEMY_INSERT_QUERY =
             "INSERT INTO public.\"Enemies\"(\r\n\t\"Name\", \"Health\", \"Min_Damage\", \"Max_Damage\")\r\n\tVALUES (@name, @health, @minDamage, @maxDamage);";
+
+        private const string ITEM_INSERT_QUERY =
+            "INSERT INTO public.\"Items\"(\r\n\t\"Name\", \"Item_Type\", \"Effect_Level\")\r\n\tVALUES (@name, @type, @effectLevel);";
 
         #endregion
 

@@ -9,6 +9,7 @@ using TextVenture.Admin.WebView.Models;
 using TextVenture.Core.Interfaces.Characters;
 using TextVenture.Core;
 using TextVenture.Core.Implementations.Characters;
+using TextVenture.Core.Interfaces.Items;
 using TextVenture.DAL;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -18,42 +19,47 @@ namespace TextVenture.Admin.WebView.Controllers
     /// <summary>
     /// An admin panel controller to get and set enemy details
     /// </summary>
-    [Route("api/[controller]")]
-    public class EnemiesController : Controller
+    [Route("api/[controller]/[action]")]
+    public class ItemsController : Controller
     {
         private readonly ITextVentureDB _db; 
-        public EnemiesController()
+        public ItemsController()
         {
             _db = DbFactory.GetTextVentureDb();
         }
         // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<IEnemy> Get()
+        public IEnumerable<IItem> Get()
         {
-            return _db.GetAllEnemies();
+            return _db.GetAllItems();
         }
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public IEnemy Get(int id)
+        public IItem Get(int id)
         {
-            return _db.GetEnemyById(id);
+            return _db.GetItemById(id);
+        }
+
+        [HttpGet]
+        public List<IItemsType> ItemTypes()
+        {
+            return _db.GetAllItemTypes();
         }
 
         // POST api/<controller>
         [HttpPost]
-        public HttpResponseMessage Post([FromBody]EnemyRequest newEnemy)
+        public HttpResponseMessage Add([FromBody]ItemRequest newItem)
         {
-            _db.InsertEnemy(newEnemy.Name, newEnemy.Health, newEnemy.MinDamage, newEnemy.MaxDamage);
+            _db.InsertItem(newItem.Name, newItem.EffectLevel, newItem.TypeId);
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
         // PUT api/<controller>/5
         [HttpPut]
-        public void Put(int id, [FromBody]EnemyRequest editedEnemy)
+        public void Edit(int id, [FromBody]ItemRequest editedItem)
         {
-            var enemy = new StandardEnemy(id, editedEnemy.Name, editedEnemy.Health, editedEnemy.MinDamage, editedEnemy.MaxDamage);
-            _db.UpdateEnemy(enemy);
+            _db.UpdateItem(id, editedItem.Name, editedItem.EffectLevel);
         }
     }
 }

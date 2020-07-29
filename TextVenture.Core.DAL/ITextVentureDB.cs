@@ -29,6 +29,30 @@ namespace TextVenture.DAL
         IItem GetItemById(int id);
 
         /// <summary>
+        /// Gets all the item types from the DB
+        /// </summary>
+        /// <returns>All the item types in the DB</returns>
+        List<IItemsType> GetAllItemTypes();
+
+        /// <summary>
+        /// Inserts a new item into the DB
+        /// </summary>
+        /// <param name="name">The name of the item to insert</param>
+        /// <param name="effectLevel">The effect level of the item</param>
+        /// <param name="type">THe ID of the item type from the DB</param>
+        /// <returns>True if success. False otherwise</returns>
+        bool InsertItem(string name, int effectLevel, int type);
+
+        /// <summary>
+        /// Updates a given item.
+        /// </summary>
+        /// <param name="id">The DB ID of the edited item</param>
+        /// <param name="name">The name of the edited item</param>
+        /// <param name="effectLevel">The effect level of the edited item</param>
+        /// <returns>True if success. False otherwise</returns>
+        bool UpdateItem(int id, string name, int effectLevel);
+
+        /// <summary>
         /// Gets a list of all the enemies in the DB
         /// </summary>
         /// <returns>All the enemies in the DB</returns>

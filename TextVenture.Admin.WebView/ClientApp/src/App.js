@@ -5,6 +5,7 @@ import { Home } from './components/Home';
 
 import './custom.css'
 import { EnemiesTable } from './Enemies/EnemiesList';
+import { ItemsTable } from './Items/ItemsList';
 
 export default class App extends Component {
   static displayName = App.name;
@@ -14,6 +15,7 @@ export default class App extends Component {
       <Layout>
         <Route exact path='/' component={Home} />
         <Route path='/enemyList' component={EnemiesTable} />
+        <Route path='/itemList' component={ItemsTable} />
       </Layout>
     );
   }
