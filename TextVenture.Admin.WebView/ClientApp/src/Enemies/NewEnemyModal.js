@@ -123,7 +123,7 @@ export const NewEnemyModal = ({isOpen, setClosed, chosenEnemy}) => {
                 <TextField label="Enemy Health" value={health} error={!!healthError} onChange={e => setHealth(e.target.value)} className={classes.textField}/>
                 <TextField label="Enemy Min Damage" value={min} error={!!minError} onChange={e => setMin(e.target.value)} className={classes.textField}/>
                 <TextField label="Enemy Max Damage" value={max} error={!!maxError} onChange={e => setMax(e.target.value)} className={classes.textField}/>
-                <Button className={classes.submitButton} color='primary' variant='contained' onClick={onSubmit}>Add</Button>
+                <Button className={classes.submitButton} color='primary' variant='contained' onClick={onSubmit}>{chosenEnemy ? "Edit" : "Add"}</Button>
             </Paper>
         </Modal>
     )

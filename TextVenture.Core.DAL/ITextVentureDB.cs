@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TextVenture.Core;
+using TextVenture.Core.Implementations.Adventure;
 using TextVenture.Core.Interfaces.Adventure;
 using TextVenture.Core.Interfaces.Characters;
 using TextVenture.Core.Interfaces.Items;
@@ -14,6 +15,8 @@ namespace TextVenture.DAL
         /// </summary>
         /// <param name="connectionString">The connection string to the relevant DB</param>
         void Connect(string connectionString);
+
+        bool IsConnected { get; }
 
         /// <summary>
         /// Gets a list of all the items in the DB
@@ -132,6 +135,20 @@ namespace TextVenture.DAL
 
         IAdventure GetAdventureById(int id);
 
-        
+        /// <summary>
+        /// Inserts a new adventure into the Db
+        /// </summary>
+        /// <param name="name">The name of the new adventure</param>
+        /// <param name="description">The description of the new adventure</param>
+        /// <param name="startingLocation">The ID of the starting location of this adventure</param>
+        /// <returns>True if success. False otherwise</returns>
+        bool InsertAdventure(string name, string description, in int startingLocation);
+
+        /// <summary>
+        /// Updates an adventure in the DB
+        /// </summary>
+        /// <param name="adventure">The updated adventure</param>
+        /// <returns>True is success. False otherwise</returns>
+        bool UpdateAdventure(IAdventure adventure);
     }
 }

@@ -44,16 +44,18 @@ namespace TextVenture.Admin.WebView.Controllers
         [HttpPost]
         public HttpResponseMessage Post([FromBody]EnemyRequest newEnemy)
         {
-            _db.InsertEnemy(newEnemy.Name, newEnemy.Health, newEnemy.MinDamage, newEnemy.MaxDamage);
-            return new HttpResponseMessage(HttpStatusCode.OK);
+            var success = _db.InsertEnemy(newEnemy.Name, newEnemy.Health, newEnemy.MinDamage, newEnemy.MaxDamage);
+            return new HttpResponseMessage(success ? HttpStatusCode.OK : HttpStatusCode.InternalServerError);
         }
 
         // PUT api/<controller>/5
         [HttpPut]
-        public void Put(int id, [FromBody]EnemyRequest editedEnemy)
+        public HttpResponseMessage Put(int id, [FromBody]EnemyRequest editedEnemy)
         {
             var enemy = new StandardEnemy(id, editedEnemy.Name, editedEnemy.Health, editedEnemy.MinDamage, editedEnemy.MaxDamage);
-            _db.UpdateEnemy(enemy);
+            
+            var success = _db.UpdateEnemy(enemy);
+            return new HttpResponseMessage(success ? HttpStatusCode.OK : HttpStatusCode.InternalServerError);
         }
     }
 }

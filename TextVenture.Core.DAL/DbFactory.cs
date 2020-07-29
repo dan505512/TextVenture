@@ -11,11 +11,15 @@ namespace TextVenture.DAL
     /// </summary>
     public class DbFactory
     {
+        private static readonly ITextVentureDB Db = new PostgresTextVentureDB();
         public static ITextVentureDB GetTextVentureDb()
         {
-            var db = new PostgresTextVentureDB();
-            db.Connect("Host=localhost;Username=postgres;Password=Password1;Database=textventure");
-            return db;
+            if (!Db.IsConnected)
+            {
+                Db.Connect("Host=localhost;Username=postgres;Password=Password1;Database=textventure");
+            }
+            
+            return Db;
         }
     }
 }

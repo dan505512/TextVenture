@@ -46,18 +46,21 @@ namespace TextVenture.Admin.WebView.Controllers
         [HttpPost]
         public HttpResponseMessage Post([FromBody]LocationRequest newLocation)
         {
-            _db.InsertLocation(newLocation.Name, newLocation.Description, newLocation.North, newLocation.South, newLocation.East, newLocation.West, newLocation.Enemy, newLocation.Item);
-            return new HttpResponseMessage(HttpStatusCode.OK);
+            var success = _db.InsertLocation(newLocation.Name, newLocation.Description, newLocation.North, newLocation.South, newLocation.East, newLocation.West, newLocation.Enemy, newLocation.Item);
+            return new HttpResponseMessage(success ? HttpStatusCode.OK : HttpStatusCode.InternalServerError);
         }
 
         // PUT api/<controller>/5
         [HttpPut]
-        public void Put(int id, [FromBody]LocationRequest editedLocation)
+        public HttpResponseMessage Put(int id, [FromBody]LocationRequest editedLocation)
         {
             var location = new StandardLocation(id, editedLocation.Name, editedLocation.Description, editedLocation.North,
                 editedLocation.South, editedLocation.East, editedLocation.West, editedLocation.Item,
                 editedLocation.Enemy);
-            _db.UpdateLocation(location);
+            
+            var success = _db.UpdateLocation(location);
+
+            return new HttpResponseMessage(success ? HttpStatusCode.OK : HttpStatusCode.InternalServerError);
         }
     }
 }

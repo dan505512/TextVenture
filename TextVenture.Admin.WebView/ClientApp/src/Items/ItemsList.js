@@ -9,14 +9,14 @@ export const ItemsTable = () => {
     const [newItemModalOpen, setNewItemModalOpen] = useState(false);
     const [chosenItem, setChosenItem] = useState(null);
 
-    const FetchData = async () => {
+    const getItems = async () => {
         const response = await fetch('api/items/get');
         const data = await response.json();
         setItems(data);
     }
 
     useEffect(() => {
-        FetchData();
+        getItems();
     }, [])
 
     const closeModal = () => {

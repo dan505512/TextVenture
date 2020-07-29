@@ -142,7 +142,7 @@ export const NewItemModal = ({isOpen, setClosed, chosenEnemy: chosenItem}) => {
                     {itemTypes.map(type => <MenuItem key={type.id} value={type.id}>{type.name}</MenuItem>)}
                  </Select>
                 }
-                <Button className={classes.submitButton} color='primary' variant='contained' onClick={onSubmit}>Add</Button>
+                <Button className={classes.submitButton} color='primary' variant='contained' onClick={onSubmit}>{chosenItem ? "Edit" : "Add"}</Button>
             </Paper>
         </Modal>
     )

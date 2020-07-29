@@ -51,15 +51,16 @@ namespace TextVenture.Admin.WebView.Controllers
         [HttpPost]
         public HttpResponseMessage Add([FromBody]ItemRequest newItem)
         {
-            _db.InsertItem(newItem.Name, newItem.EffectLevel, newItem.TypeId);
-            return new HttpResponseMessage(HttpStatusCode.OK);
+            var success = _db.InsertItem(newItem.Name, newItem.EffectLevel, newItem.TypeId);
+            return new HttpResponseMessage(success ? HttpStatusCode.OK : HttpStatusCode.InternalServerError);
         }
 
         // PUT api/<controller>/5
         [HttpPut]
-        public void Edit(int id, [FromBody]ItemRequest editedItem)
+        public HttpResponseMessage Edit(int id, [FromBody]ItemRequest editedItem)
         {
-            _db.UpdateItem(id, editedItem.Name, editedItem.EffectLevel);
+            var success = _db.UpdateItem(id, editedItem.Name, editedItem.EffectLevel);
+            return new HttpResponseMessage(success ? HttpStatusCode.OK : HttpStatusCode.InternalServerError);
         }
     }
 }

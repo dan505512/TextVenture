@@ -35,6 +35,8 @@ namespace TextVenture.DAL
             _connection.Open();
         }
 
+        public bool IsConnected => _connection != null;
+
         public List<IItem> GetAllItems()
         {
             return PerformGenericGetAll(ITEMS_QUERY, GetItemFromRow);
@@ -219,6 +221,45 @@ namespace TextVenture.DAL
             return PerformGenericGetById(ADVENTURES_QUERY, getAdventureFromRow, id);
         }
 
+        public bool InsertAdventure(string name, string description, in int startingLocation)
+        {
+            try
+            {
+                using var query = new NpgsqlCommand(ADVENTURE_INSERT_QUERY, _connection);
+                query.Parameters.AddWithValue("name", name);
+                query.Parameters.AddWithValue("description", description);
+                query.Parameters.AddWithValue("startingLocation", startingLocation);
+                query.Prepare();
+
+                query.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool UpdateAdventure(IAdventure adventure)
+        {
+            try
+            {
+                using var query = new NpgsqlCommand(ADVENTURE_UPDATE_QUERY, _connection);
+                query.Parameters.AddWithValue("name", adventure.Name);
+                query.Parameters.AddWithValue("description", adventure.Description);
+                query.Parameters.AddWithValue("startingLocation", adventure.StartingLocation);
+                query.Parameters.AddWithValue("id", adventure.ID);
+                query.Prepare();
+
+                query.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         /// <summary>
         /// Closes the connection and disposes of all resources
         /// </summary>
@@ -357,6 +398,9 @@ namespace TextVenture.DAL
         private const string LOCATION_UPDATE_QUERY =
             "UPDATE public.\"Location\"\r\n\tSET \"Name\"=@name, \"Description\"=@description, \"North\"=@north, \"South\"=@south, \"East\"=@east, \"West\"=@west, \"Item\"=@item, \"Enemy\"=@enemy\r\n\tWHERE \"ID\"=@id;";
 
+        private const string ADVENTURE_UPDATE_QUERY =
+            "UPDATE public.\"Advanture\"\r\n\tSET \"Name\"=@name, \"Description\"=@description, \"Starting_Location\"=@startingLocation\r\n\tWHERE \"ID\"=@id;";
+
         #endregion
 
         #region Insert
@@ -370,6 +414,8 @@ namespace TextVenture.DAL
         private const string LOCATION_INSERT_QUERY =
             "INSERT INTO public.\"Location\"(\r\n\t\"Name\", \"Description\", \"North\", \"South\", \"East\", \"West\", \"Item\", \"Enemy\")\r\n\tVALUES (@name, @description, @north, @south, @east, @west, @item, @enemy);";
 
+        private const string ADVENTURE_INSERT_QUERY =
+            "INSERT INTO public.\"Advanture\"(\r\n\t\"Name\", \"Description\", \"Starting_Location\")\r\n\tVALUES (@name, @description, @startingLocation);";
         #endregion
 
         #endregion
