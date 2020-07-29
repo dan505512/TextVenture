@@ -26,7 +26,7 @@ namespace TextVenture.Admin.WebView.Controllers
         private readonly ITextVentureDB _db; 
         public LocationsController()
         {
-            _db = DbFactory.GetTextVentureDb();
+            _db = DbFactory.GetTextVentureDb("locations");
         }
         // GET: api/<controller>
         [HttpGet]

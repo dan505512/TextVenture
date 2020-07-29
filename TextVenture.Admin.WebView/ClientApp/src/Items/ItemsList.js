@@ -3,12 +3,13 @@ import { useState, useEffect } from "react";
 import { Button } from "@material-ui/core";
 import { NewItemModal } from "./NewItemModal";
 
-
+/// A table containing all the adventures. Enables addition and edit.
 export const ItemsTable = () => {
     const [items, setItems] = useState([]);
     const [newItemModalOpen, setNewItemModalOpen] = useState(false);
     const [chosenItem, setChosenItem] = useState(null);
 
+    // Getting all the items from the api
     const getItems = async () => {
         const response = await fetch('api/items/get');
         const data = await response.json();
@@ -19,11 +20,13 @@ export const ItemsTable = () => {
         getItems();
     }, [])
 
+    // Closing the modal and making sure no item stays selected
     const closeModal = () => {
       setNewItemModalOpen(false);
       setChosenItem(null);
     }
 
+    // When editing trasfers the relevant data down to the modal to edit the right item
     const onEditClicked = enemy => {
       setChosenItem(enemy);
       setNewItemModalOpen(true);

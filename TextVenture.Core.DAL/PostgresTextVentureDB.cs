@@ -273,7 +273,7 @@ namespace TextVenture.DAL
         private List<T> PerformGenericGetAll<T>(string queryString, GetObjectFromDbRow<T> resolver)
         {
             using var query = new NpgsqlCommand(queryString, _connection);
-            using var dataReader = query.ExecuteReader();
+            using var dataReader = query.ExecuteReaderAsync().Result;
             var itemList = new List<T>();
 
             while (dataReader.Read())

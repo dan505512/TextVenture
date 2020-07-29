@@ -3,26 +3,30 @@ import { useState, useEffect } from "react";
 import { Button } from "@material-ui/core";
 import { NewEnemyModal } from "./NewEnemyModal";
 
+/// A table containing all the enemies. Enables addition and edit.
 export const EnemiesTable = () => {
     const [enemies, setEnemies] = useState([]);
     const [newEnemyModalOpen, setNewEnemyModalOpen] = useState(false);
     const [chosenEnemy, setChosenEnemy] = useState(null);
 
-    const FetchData = async () => {
+    // Getting all the enemies from the api
+    const getEnemies = async () => {
         const response = await fetch('api/enemies');
         const data = await response.json();
         setEnemies(data);
     }
 
     useEffect(() => {
-        FetchData();
+        getEnemies();
     }, [])
 
+    // Closing the modal and making sure no enemy stays selected
     const closeModal = () => {
       setNewEnemyModalOpen(false);
       setChosenEnemy(null);
     }
 
+    // When editing trasfers the relevant data down to the modal to edit the right enemy
     const onEditClicked = enemy => {
       setChosenEnemy(enemy);
       setNewEnemyModalOpen(true);

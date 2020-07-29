@@ -7,6 +7,7 @@ import './custom.css'
 import { EnemiesTable } from './Enemies/EnemiesList';
 import { ItemsTable } from './Items/ItemsList';
 import { LocationsTable } from './Locations/LocationsList'
+import { AdventuresTable } from './Adventures/AdventuresList';
 
 export default class App extends Component {
   static displayName = App.name;
@@ -18,6 +19,7 @@ export default class App extends Component {
         <Route path='/enemyList' component={EnemiesTable} />
         <Route path='/itemList' component={ItemsTable} />
         <Route path='/locationList' component={LocationsTable} />
+        <Route path='/adventureList' component={AdventuresTable} />
       </Layout>
     );
   }

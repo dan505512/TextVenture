@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
+// A modal to add or edit items
 export const NewItemModal = ({isOpen, setClosed, chosenEnemy: chosenItem}) => {
     const classes = useStyles();
     const [name, setName] = useState('')
@@ -38,6 +39,7 @@ export const NewItemModal = ({isOpen, setClosed, chosenEnemy: chosenItem}) => {
     const [itemTypes, setItemTypes] = useState([]);
     const [selectedItemType, setSelectedItemType] = useState("");
 
+    // When the chosen item changes, update all properties. This happens when edit is clicked or the modal is closed.
     useEffect(() => {
         setName(chosenItem ? chosenItem.name : '');
         setEffectLevel(chosenItem ? chosenItem.effectLevel : '');
@@ -54,6 +56,7 @@ export const NewItemModal = ({isOpen, setClosed, chosenEnemy: chosenItem}) => {
         setItemTypes(types);
     }
 
+    // Making sure input is valid before submitting
     const validateValues = () => {
         let isValid = true;
         if (_.isEmpty(name)) {
@@ -80,6 +83,7 @@ export const NewItemModal = ({isOpen, setClosed, chosenEnemy: chosenItem}) => {
         return isValid;
     }
 
+    // When creating a new item we send a POST request to the locations api, with all the data in the body
     const createNewItem = async body => {
         const request = new Request('api/items/add', { body, method: 'POST', headers: {"content-type": 'application/json'} });
 
@@ -92,6 +96,7 @@ export const NewItemModal = ({isOpen, setClosed, chosenEnemy: chosenItem}) => {
         }
     }
 
+    // When editing an item we send all the data in the body but the id, which is sent as a query.
     const editItem = async body => {
         const request = new Request(`api/items/edit?id=${chosenItem.id}`, { body, method: 'PUT', headers: {"content-type": 'application/json'} });
 
@@ -104,6 +109,7 @@ export const NewItemModal = ({isOpen, setClosed, chosenEnemy: chosenItem}) => {
         }
     }
 
+    // Validate data and decide if editing or adding.
     const onSubmit = () => {
         const canSubmit = validateValues();
 

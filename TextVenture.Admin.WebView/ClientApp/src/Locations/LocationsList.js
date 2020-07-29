@@ -11,6 +11,7 @@ export const LocationsTable = () => {
     const [newLocationModalOpen, setNewLocationModalOpen] = useState(false)
     const [chosenLocation, setChosenLocation] = useState(null);
 
+    // Fetching the items, enemies and locations.
     useEffect(() => {
         getEnemies();
         getItems();
@@ -35,6 +36,7 @@ export const LocationsTable = () => {
         setLocations(data);
     }
 
+    // A locations contains a lot of data from different objects. Mapping each property to the name contained in the relevant object.
     const getMappedLocationsForTable = () => {
         return _.map(locations, dbLocation => {
             const displayLocation = _.clone(dbLocation)
@@ -60,11 +62,13 @@ export const LocationsTable = () => {
         })
     }
 
+    // Closing the modal and making sure no location stays selected
     const onModalClosed = () => {
         setNewLocationModalOpen(false);
         setChosenLocation(null);
     }
 
+    // When editing trasfers the relevant data down to the modal to edit the right location
     const onEditClicked = locationId => {
         setChosenLocation(_.find(locations, location => locationId === location.id));
         setNewLocationModalOpen(true);

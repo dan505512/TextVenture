@@ -35,6 +35,7 @@ export const NewEnemyModal = ({isOpen, setClosed, chosenEnemy}) => {
     const [minError, setMinError] = useState(false)
     const [maxError, setMaxError] = useState(false)
 
+    // When the chosen enemy changes, update all properties. This happens when edit is clicked or the modal is closed.
     useEffect(() => {
         setName(chosenEnemy ? chosenEnemy.name : '');
         setHealth(chosenEnemy ? chosenEnemy.health : '');
@@ -42,6 +43,7 @@ export const NewEnemyModal = ({isOpen, setClosed, chosenEnemy}) => {
         setMax(chosenEnemy? chosenEnemy.maxDamage : '');
     }, [chosenEnemy])
 
+    // Making sure input is valid before submitting
     const validateValues = () => {
         let isValid = true;
         if (_.isEmpty(name)) {
@@ -75,6 +77,7 @@ export const NewEnemyModal = ({isOpen, setClosed, chosenEnemy}) => {
         return isValid;
     }
 
+    // When creating a new enemy we send a POST request to the enemies api, with all the data in the body
     const createNewEnemy = async body => {
         const request = new Request('api/enemies', { body, method: 'POST', headers: {"content-type": 'application/json'} });
 
@@ -87,6 +90,7 @@ export const NewEnemyModal = ({isOpen, setClosed, chosenEnemy}) => {
         }
     }
 
+    // When editing an enemy we send all the data in the body but the id, which is sent as a query.
     const editEnemy = async body => {
         const request = new Request(`api/enemies?id=${chosenEnemy.id}`, { body, method: 'PUT', headers: {"content-type": 'application/json'} });
 
@@ -99,6 +103,7 @@ export const NewEnemyModal = ({isOpen, setClosed, chosenEnemy}) => {
         }
     }
 
+    // Validate data and decide if editing or adding.
     const onSubmit = () => {
         const canSubmit = validateValues();
 

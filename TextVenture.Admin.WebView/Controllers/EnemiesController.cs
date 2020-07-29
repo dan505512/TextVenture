@@ -24,7 +24,7 @@ namespace TextVenture.Admin.WebView.Controllers
         private readonly ITextVentureDB _db; 
         public EnemiesController()
         {
-            _db = DbFactory.GetTextVentureDb();
+            _db = DbFactory.GetTextVentureDb("enemies");
         }
         // GET: api/<controller>
         [HttpGet]

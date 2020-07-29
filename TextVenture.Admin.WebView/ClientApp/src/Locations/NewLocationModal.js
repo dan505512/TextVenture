@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import React, { useState, useEffect } from 'react';
 import { MenuItem, Select, Modal, TextField, Paper, makeStyles, InputLabel, Button } from "@material-ui/core";
 import _ from 'lodash';
@@ -28,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
         marginTop: '10%'
     }
   }));
-
+// A modal to add or edit locations
 export const NewLocationModal = ({isOpen, enemies, items, locations, chosenLocation, setClosed}) => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
@@ -42,6 +43,7 @@ export const NewLocationModal = ({isOpen, enemies, items, locations, chosenLocat
     const [descriptionError, setDescriptionError] = useState(false);
     const classes = useStyles();
 
+    // When the chosen location changes, update all properties. This happens when edit is clicked or the modal is closed.
     useEffect(() => {
         setName(chosenLocation ? chosenLocation.name : '');
         setDescription(chosenLocation ? chosenLocation.description : '');
@@ -53,8 +55,10 @@ export const NewLocationModal = ({isOpen, enemies, items, locations, chosenLocat
         setEnemy(chosenLocation && chosenLocation.enemy ? chosenLocation.enemy : '')
     }, [chosenLocation]);
 
+    // Map any kind of object to a menu item
     const getMenuItems = list => (list.map(type => <MenuItem key={type.id} value={type.id}>{type.name}</MenuItem>))
 
+    // Making sure input is valid before submitting
     const validateValues = () => {
         let isValid = true;
 
@@ -75,6 +79,7 @@ export const NewLocationModal = ({isOpen, enemies, items, locations, chosenLocat
         return isValid;
     }
 
+    // When creating a new location we send a POST request to the locations api, with all the data in the body
     const createNewLocation = async body => {
         const request = new Request('api/locations', { body, method: 'POST', headers: {"content-type": 'application/json'} });
 
@@ -87,6 +92,7 @@ export const NewLocationModal = ({isOpen, enemies, items, locations, chosenLocat
         }
     }
 
+    // When editing a location we send all the data in the body but the id, which is sent as a query.
     const editLocation = async body => {
         const request = new Request(`api/locations?id=${chosenLocation.id}`, { body, method: 'PUT', headers: {"content-type": 'application/json'} });
 
@@ -99,6 +105,7 @@ export const NewLocationModal = ({isOpen, enemies, items, locations, chosenLocat
         }
     }
 
+    // Validate data and decide if editing or adding.
     const onSubmit = () => {
         const canSubmit = validateValues();
 
@@ -109,6 +116,7 @@ export const NewLocationModal = ({isOpen, enemies, items, locations, chosenLocat
         const body = JSON.stringify({
             name,
             description,
+            // For our api 0 is the same as null and we use == and not === cause this might be a string
             north: isNaN(north) || north == 0 ? null : Number(north),
             south: isNaN(south) || south == 0 ? null : Number(south),
             east: isNaN(east) || east == 0 ? null : Number(east),
@@ -123,8 +131,8 @@ export const NewLocationModal = ({isOpen, enemies, items, locations, chosenLocat
     return (
         <Modal open={isOpen} onClose={setClosed} className={classes.modal}>
             <Paper className={classes.paper}>
-                <TextField value={name} onChange={e => setName(e.target.value)} label='name' className={classes.textField} />
-                <TextField value={description} onChange={e => setDescription(e.target.value)} label='description' className={classes.textField}/>
+                <TextField value={name} onChange={e => setName(e.target.value)} label='name' className={classes.textField} error={nameError} />
+                <TextField value={description} onChange={e => setDescription(e.target.value)} label='description' className={classes.textField} error={descriptionError}/>
                 <InputLabel id='north-select-label' className={classes.selectLabel}>North</InputLabel>
                 <Select labelId='north-select-label' value={north} onChange={e => setNorth(e.target.value)} className={classes.select}>
                     <MenuItem value=''>None</MenuItem>
