@@ -5,16 +5,16 @@ import _ from 'lodash';
 
 const useStyles = makeStyles((theme) => ({
     modal: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     paper: {
-      backgroundColor: theme.palette.background.paper,
-      border: '2px solid #000',
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-      height: '70%'
+        backgroundColor: theme.palette.background.paper,
+        border: '2px solid #000',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+        height: '70%'
     },
     textField: {
         display: 'block'
@@ -28,9 +28,9 @@ const useStyles = makeStyles((theme) => ({
     selectLabel: {
         marginTop: '10%'
     }
-  }));
+}));
 // A modal to add or edit locations
-export const NewLocationModal = ({isOpen, enemies, items, locations, chosenLocation, setClosed}) => {
+export const NewLocationModal = ({ isOpen, enemies, items, locations, chosenLocation, setClosed }) => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [north, setNorth] = useState('');
@@ -69,7 +69,7 @@ export const NewLocationModal = ({isOpen, enemies, items, locations, chosenLocat
             setNameError(false);
         }
 
-        if(_.isEmpty(description)) {
+        if (_.isEmpty(description)) {
             isValid = false;
             setDescriptionError(true);
         } else {
@@ -81,10 +81,10 @@ export const NewLocationModal = ({isOpen, enemies, items, locations, chosenLocat
 
     // When creating a new location we send a POST request to the locations api, with all the data in the body
     const createNewLocation = async body => {
-        const request = new Request('api/locations', { body, method: 'POST', headers: {"content-type": 'application/json'} });
+        const request = new Request('api/locations', { body, method: 'POST', headers: { "content-type": 'application/json' } });
 
         const res = await fetch(request)
-        if(res.ok) {
+        if (res.ok) {
             window.location.reload();
         } else {
             console.error(request);
@@ -94,10 +94,10 @@ export const NewLocationModal = ({isOpen, enemies, items, locations, chosenLocat
 
     // When editing a location we send all the data in the body but the id, which is sent as a query.
     const editLocation = async body => {
-        const request = new Request(`api/locations?id=${chosenLocation.id}`, { body, method: 'PUT', headers: {"content-type": 'application/json'} });
+        const request = new Request(`api/locations?id=${chosenLocation.id}`, { body, method: 'PUT', headers: { "content-type": 'application/json' } });
 
         const res = await fetch(request)
-        if(res.ok) {
+        if (res.ok) {
             window.location.reload();
         } else {
             console.error(request);
@@ -112,7 +112,7 @@ export const NewLocationModal = ({isOpen, enemies, items, locations, chosenLocat
         if (!canSubmit) {
             return;
         }
-        
+
         const body = JSON.stringify({
             name,
             description,
@@ -132,7 +132,7 @@ export const NewLocationModal = ({isOpen, enemies, items, locations, chosenLocat
         <Modal open={isOpen} onClose={setClosed} className={classes.modal}>
             <Paper className={classes.paper}>
                 <TextField value={name} onChange={e => setName(e.target.value)} label='name' className={classes.textField} error={nameError} />
-                <TextField value={description} onChange={e => setDescription(e.target.value)} label='description' className={classes.textField} error={descriptionError}/>
+                <TextField value={description} onChange={e => setDescription(e.target.value)} label='description' className={classes.textField} error={descriptionError} />
                 <InputLabel id='north-select-label' className={classes.selectLabel}>North</InputLabel>
                 <Select labelId='north-select-label' value={north} onChange={e => setNorth(e.target.value)} className={classes.select}>
                     <MenuItem value=''>None</MenuItem>

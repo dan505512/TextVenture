@@ -49,29 +49,29 @@ export const AdventuresTable = () => {
     }
 
     return (
-    <>
-        <table className='table table-striped' aria-labelledby='tabelLabel'>
-        <thead>
-            <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Starting Location</th>
-            </tr>
-        </thead>
-        <tbody>
-            {adventures.map(adventure =>
-            <tr key={adventure.id}>
-                <td>{adventure.id}</td>
-                <td>{adventure.name}</td>
-                <td>{adventure.description}</td>
-                <td>{getStartingLocation(adventure)}</td>
-                <td><Button variant='contained' color='secondary' onClick={() => onEditClicked(adventure.id)}>Edit</Button></td>
-            </tr>
-            )}
-        </tbody>
-        </table>
-        <NewAdventureModal isOpen={newAdventureModalOpen} setClosed={onModalClosed} chosenAdventure={chosenAdventure} locations={locations}/>
-        <Button variant='contained' color='primary' onClick={() => setNewAdventureModalOpen(true)}>Add new adventure</Button>
-  </>);
+        <>
+            <table className='table table-striped' aria-labelledby='tabelLabel'>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Starting Location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {adventures.map(adventure =>
+                        <tr key={adventure.id}>
+                            <td>{adventure.id}</td>
+                            <td>{adventure.name}</td>
+                            <td>{adventure.description}</td>
+                            <td>{getStartingLocation(adventure)}</td>
+                            <td><Button variant='contained' color='secondary' onClick={() => onEditClicked(adventure.id)}>Edit</Button></td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
+            <NewAdventureModal isOpen={newAdventureModalOpen} setClosed={onModalClosed} chosenAdventure={chosenAdventure} locations={locations} />
+            <Button variant='contained' color='primary' onClick={() => setNewAdventureModalOpen(true)}>Add new adventure</Button>
+        </>);
 }

@@ -23,24 +23,24 @@ export const Login = () => {
     const [isError, setIsError] = useState(false);
     const classes = useStyles();
 
-    
+
     const onSubmit = async () => {
-        const request = new Request('/api/login' , {
+        const request = new Request('/api/login', {
             method: 'POST',
             body: JSON.stringify({
                 username,
                 password
             }),
-            headers: {"content-type": 'application/json'}
+            headers: { "content-type": 'application/json' }
         });
 
         const result = await fetch(request)
         const json = await result.json();
-        if(!(json.statusCode === 200)) {
+        if (!(json.statusCode === 200)) {
             setIsError(true);
             return;
         }
-        
+
         // Becuase of .NET integration cookie's nama and value seems as null to the browser. Will be fixed in next version.
         document.cookie = json.headers[0].Value;
         window.location.pathname = '/'

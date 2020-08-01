@@ -40,22 +40,22 @@ export const LocationsTable = () => {
     const getMappedLocationsForTable = () => {
         return _.map(locations, dbLocation => {
             const displayLocation = _.clone(dbLocation)
-            if(displayLocation.north) {
+            if (displayLocation.north) {
                 displayLocation.north = _.get(_.find(locations, l => l.id === displayLocation.north), 'name');
             }
-            if(displayLocation.south) {
+            if (displayLocation.south) {
                 displayLocation.south = _.get(_.find(locations, l => l.id === displayLocation.south), 'name');
             }
-            if(displayLocation.east) {
+            if (displayLocation.east) {
                 displayLocation.east = _.get(_.find(locations, l => l.id === displayLocation.east), 'name');
             }
-            if(displayLocation.west) {
+            if (displayLocation.west) {
                 displayLocation.west = _.get(_.find(locations, l => l.id === displayLocation.west), 'name');
             }
-            if(displayLocation.item) {
+            if (displayLocation.item) {
                 displayLocation.item = _.get(_.find(items, item => item.id === displayLocation.item), 'name');
             }
-            if(displayLocation.enemy) {
+            if (displayLocation.enemy) {
                 displayLocation.enemy = _.get(_.find(enemies, enemy => enemy.id === displayLocation.enemy), 'name');
             }
             return displayLocation;
@@ -75,39 +75,39 @@ export const LocationsTable = () => {
     }
 
     return (
-    <>
-        <table className='table table-striped' aria-labelledby='tabelLabel'>
-        <thead>
-            <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>North</th>
-            <th>South</th>
-            <th>East</th>
-            <th>West</th>
-            <th>Item</th>
-            <th>Enemy</th>
-            </tr>
-        </thead>
-        <tbody>
-            {getMappedLocationsForTable().map(location =>
-            <tr key={location.id}>
-                <td>{location.id}</td>
-                <td>{location.name}</td>
-                <td>{location.description}</td>
-                <td>{location.north}</td>
-                <td>{location.south}</td>
-                <td>{location.east}</td>
-                <td>{location.west}</td>
-                <td>{location.item}</td>
-                <td>{location.enemy}</td>
-                <td><Button variant='contained' color='secondary' onClick={() => onEditClicked(location.id)}>Edit</Button></td>
-            </tr>
-            )}
-        </tbody>
-        </table>
-        <NewLocationModal isOpen={newLocationModalOpen} setClosed={(onModalClosed)} enemies={enemies} locations={locations} items={items} chosenLocation={chosenLocation} />
-        <Button variant='contained' color='primary' onClick={() => setNewLocationModalOpen(true)}>Add new location</Button>
-  </>);
+        <>
+            <table className='table table-striped' aria-labelledby='tabelLabel'>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>North</th>
+                        <th>South</th>
+                        <th>East</th>
+                        <th>West</th>
+                        <th>Item</th>
+                        <th>Enemy</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {getMappedLocationsForTable().map(location =>
+                        <tr key={location.id}>
+                            <td>{location.id}</td>
+                            <td>{location.name}</td>
+                            <td>{location.description}</td>
+                            <td>{location.north}</td>
+                            <td>{location.south}</td>
+                            <td>{location.east}</td>
+                            <td>{location.west}</td>
+                            <td>{location.item}</td>
+                            <td>{location.enemy}</td>
+                            <td><Button variant='contained' color='secondary' onClick={() => onEditClicked(location.id)}>Edit</Button></td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
+            <NewLocationModal isOpen={newLocationModalOpen} setClosed={(onModalClosed)} enemies={enemies} locations={locations} items={items} chosenLocation={chosenLocation} />
+            <Button variant='contained' color='primary' onClick={() => setNewLocationModalOpen(true)}>Add new location</Button>
+        </>);
 }

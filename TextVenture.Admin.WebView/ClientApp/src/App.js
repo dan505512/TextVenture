@@ -14,7 +14,7 @@ const LOGIN_PAGE = '/login';
 export default () => {
   const isLoginPage = window.location.pathname === LOGIN_PAGE;
   const [loginChecked, setLoginChecked] = useState(isLoginPage);
-  
+
   useEffect(() => {
     loginIfNeeded();
   }, [])
@@ -27,9 +27,9 @@ export default () => {
     setLoginChecked(true);
   }
 
-  if(!loginChecked)
+  if (!loginChecked)
     return (
-        <h1>Logging in... Please wait</h1>
+      <h1>Logging in... Please wait</h1>
     )
 
   return (
