@@ -51,9 +51,6 @@
     <Compile Include="Interfaces\Adventure\IAdventure.cs" />
     <Compile Include="Interfaces\Adventure\ILocation.cs" />
     <Compile Include="Interfaces\Characters\IEnemy.cs" />
-    <Compile Include="Interfaces\Items\IAttackItem.cs" />
-    <Compile Include="Interfaces\Items\IDefenseItem.cs" />
-    <Compile Include="Interfaces\Items\IHealthItem.cs" />
     <Compile Include="Interfaces\Items\IItem.cs" />
     <Compile Include="Interfaces\Items\IItemsType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

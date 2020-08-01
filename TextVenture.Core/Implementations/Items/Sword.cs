@@ -2,7 +2,7 @@
 
 namespace TextVenture.Core.Implementations.Items
 {
-    public class Sword : IAttackItem
+    public class Sword : IItem
     {
         /// <summary>
         /// Creates a new shield
@@ -19,11 +19,7 @@ namespace TextVenture.Core.Implementations.Items
         public string Name { get; }
         public int EffectLevel { get; }
         public int ID { get; }
-
-
-        public int AddDamage(int currentDamage)
-        {
-            return currentDamage + EffectLevel;
-        }
+        public string ItemType => "Sword";
+        public string ItemEffect => "Attack";
     }
 }

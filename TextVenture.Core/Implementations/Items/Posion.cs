@@ -7,7 +7,7 @@ using TextVenture.Core.Interfaces.Items;
 
 namespace TextVenture.Core.Implementations.Items
 {
-    public class Potion : IHealthItem
+    public class Potion : IItem
     {
         /// <summary>
         /// Creates a new potion
@@ -25,10 +25,7 @@ namespace TextVenture.Core.Implementations.Items
         public string Name { get; }
         public int EffectLevel { get; }
         public int ID { get; }
-
-        public int AddHealth(int currentHealth)
-        {
-            return currentHealth + EffectLevel;
-        }
+        public string ItemType => "Potion";
+        public string ItemEffect => "Health";
     }
 }

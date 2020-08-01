@@ -7,7 +7,7 @@ using TextVenture.Core.Interfaces.Items;
 
 namespace TextVenture.Core.Implementations.Items
 {
-    public class Shield : IDefenseItem
+    public class Shield : IItem
     {
         /// <summary>
         /// Creates a new shield
@@ -25,10 +25,7 @@ namespace TextVenture.Core.Implementations.Items
         public string Name { get; }
         public int EffectLevel { get; }
         public int ID { get; }
-
-        public int ReduceDamage(int currentDamage)
-        {
-            return currentDamage - EffectLevel;
-        }
+        public string ItemType => "Shield";
+        public string ItemEffect => "Defense";
     }
 }

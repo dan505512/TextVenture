@@ -16,5 +16,9 @@
         /// The DB ID of this item
         /// </summary>
         int ID { get; }
+
+        string ItemType { get; }
+
+        string ItemEffect { get;  }
     }
 }
