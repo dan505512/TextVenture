@@ -18,7 +18,7 @@ namespace TextVenture.Admin.WebView.Controllers
         private readonly ITextVentureDB _db;
         public AdventuresController()
         {
-            _db = DbFactory.GetTextVentureDb("adventures");
+            _db = DbFactory.GetTextVentureDb();
         }
         // GET: api/<controller>
         [HttpGet]
@@ -49,6 +49,12 @@ namespace TextVenture.Admin.WebView.Controllers
             var adventure = new Adventure(id, editedAdventure.Name, editedAdventure.Description, editedAdventure.StartingLocation);
             var success = _db.UpdateAdventure(adventure);
             return new HttpResponseMessage(success ? HttpStatusCode.OK : HttpStatusCode.InternalServerError);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            _db.Dispose();
         }
     }
 }

@@ -17,7 +17,7 @@ export default () => {
 
   useEffect(() => {
     loginIfNeeded();
-  }, [])
+  })
 
   const loginIfNeeded = async () => {
     const result = await fetch('/api/login')

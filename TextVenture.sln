@@ -7,11 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextVenture.Core", "TextVen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextVenture.Tester", "TextVenture.Tester\TextVenture.Tester.csproj", "{06DE1636-07C0-4CF1-BBE6-21AD775EBFDC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextVenture.Admin.WebView", "TextVenture.Admin.WebView\TextVenture.Admin.WebView.csproj", "{F956704B-E0C1-44F3-9085-8C69B67AED5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TextVenture.Admin.WebView", "TextVenture.Admin.WebView\TextVenture.Admin.WebView.csproj", "{F956704B-E0C1-44F3-9085-8C69B67AED5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextVenture.DAL", "TextVenture.Core.DAL\TextVenture.DAL.csproj", "{5C875247-49BD-417F-A048-D25FCED303CA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextVenture.Admin.BL", "TextVenture.Core.Admin.BL\TextVenture.Admin.BL.csproj", "{536D940B-B943-48F4-82C9-04689786BFB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TextVenture.DAL", "TextVenture.Core.DAL\TextVenture.DAL.csproj", "{5C875247-49BD-417F-A048-D25FCED303CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +33,6 @@ Global
 		{5C875247-49BD-417F-A048-D25FCED303CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C875247-49BD-417F-A048-D25FCED303CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C875247-49BD-417F-A048-D25FCED303CA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{536D940B-B943-48F4-82C9-04689786BFB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{536D940B-B943-48F4-82C9-04689786BFB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{536D940B-B943-48F4-82C9-04689786BFB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{536D940B-B943-48F4-82C9-04689786BFB2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

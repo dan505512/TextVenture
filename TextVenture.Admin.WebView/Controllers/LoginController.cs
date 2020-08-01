@@ -27,7 +27,7 @@ namespace TextVenture.Admin.WebView.Controllers
         private readonly SessionManager _sessionManager;
         public LoginController()
         {
-            _db = DbFactory.GetTextVentureDb("adventures");
+            _db = DbFactory.GetTextVentureDb();
             _sessionManager = SessionManagerFactory.GetSessionManager();
         }
 
@@ -90,5 +90,10 @@ namespace TextVenture.Admin.WebView.Controllers
             return Sb.ToString();
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            _db.Dispose();
+        }
     }
 }

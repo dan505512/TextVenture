@@ -25,7 +25,7 @@ namespace TextVenture.Admin.WebView.Controllers
         private readonly ITextVentureDB _db; 
         public ItemsController()
         {
-            _db = DbFactory.GetTextVentureDb("items");
+            _db = DbFactory.GetTextVentureDb();
         }
         // GET: api/<controller>
         [HttpGet]
@@ -61,6 +61,12 @@ namespace TextVenture.Admin.WebView.Controllers
         {
             var success = _db.UpdateItem(id, editedItem.Name, editedItem.EffectLevel);
             return new HttpResponseMessage(success ? HttpStatusCode.OK : HttpStatusCode.InternalServerError);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            _db.Dispose();
         }
     }
 }
