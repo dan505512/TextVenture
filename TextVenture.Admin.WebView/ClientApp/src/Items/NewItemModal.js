@@ -5,16 +5,16 @@ import _ from 'lodash';
 
 const useStyles = makeStyles((theme) => ({
     modal: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     paper: {
-      backgroundColor: theme.palette.background.paper,
-      border: '2px solid #000',
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-      height: '35%'
+        backgroundColor: theme.palette.background.paper,
+        border: '2px solid #000',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+        height: '35%'
     },
     textField: {
         display: 'block'
@@ -26,10 +26,10 @@ const useStyles = makeStyles((theme) => ({
         display: 'block',
         marginTop: '10%'
     }
-  }));
+}));
 
 // A modal to add or edit items
-export const NewItemModal = ({isOpen, setClosed, chosenEnemy: chosenItem}) => {
+export const NewItemModal = ({ isOpen, setClosed, chosenEnemy: chosenItem }) => {
     const classes = useStyles();
     const [name, setName] = useState('')
     const [effectLevel, setEffectLevel] = useState('')
@@ -79,16 +79,16 @@ export const NewItemModal = ({isOpen, setClosed, chosenEnemy: chosenItem}) => {
         } else {
             setTypeError(false);
         }
-        
+
         return isValid;
     }
 
     // When creating a new item we send a POST request to the locations api, with all the data in the body
     const createNewItem = async body => {
-        const request = new Request('api/items/add', { body, method: 'POST', headers: {"content-type": 'application/json'} });
+        const request = new Request('api/items/add', { body, method: 'POST', headers: { "content-type": 'application/json' } });
 
         const res = await fetch(request)
-        if(res.ok) {
+        if (res.ok) {
             window.location.reload();
         } else {
             console.error(request);
@@ -98,10 +98,10 @@ export const NewItemModal = ({isOpen, setClosed, chosenEnemy: chosenItem}) => {
 
     // When editing an item we send all the data in the body but the id, which is sent as a query.
     const editItem = async body => {
-        const request = new Request(`api/items/edit?id=${chosenItem.id}`, { body, method: 'PUT', headers: {"content-type": 'application/json'} });
+        const request = new Request(`api/items/edit?id=${chosenItem.id}`, { body, method: 'PUT', headers: { "content-type": 'application/json' } });
 
         const res = await fetch(request)
-        if(res.ok) {
+        if (res.ok) {
             window.location.reload();
         } else {
             console.error(request);
@@ -116,7 +116,7 @@ export const NewItemModal = ({isOpen, setClosed, chosenEnemy: chosenItem}) => {
         if (!canSubmit) {
             return;
         }
-        
+
         const body = JSON.stringify({
             name,
             effectLevel: Number(effectLevel),
@@ -128,25 +128,25 @@ export const NewItemModal = ({isOpen, setClosed, chosenEnemy: chosenItem}) => {
 
     const handleSelectedTypeChange = (event) => {
         setSelectedItemType(event.target.value);
-      };
+    };
 
     return (
         <Modal open={isOpen} className={classes.modal} onClose={setClosed}>
             <Paper className={classes.paper}>
-                <TextField label="Item Name" value={name} error={!!nameError} onChange={e => setName(e.target.value)} className={classes.textField}/>
-                <TextField label="Item Effect Level" value={effectLevel} error={!!effectLevelError} onChange={e => setEffectLevel(e.target.value)} className={classes.textField}/>
-                { !chosenItem && <Select
-                        value={selectedItemType}
-                        onChange={handleSelectedTypeChange}
-                        displayEmpty
-                        className={classes.select}
-                        error={typeError}
-                    >
+                <TextField label="Item Name" value={name} error={!!nameError} onChange={e => setName(e.target.value)} className={classes.textField} />
+                <TextField label="Item Effect Level" value={effectLevel} error={!!effectLevelError} onChange={e => setEffectLevel(e.target.value)} className={classes.textField} />
+                {!chosenItem && <Select
+                    value={selectedItemType}
+                    onChange={handleSelectedTypeChange}
+                    displayEmpty
+                    className={classes.select}
+                    error={typeError}
+                >
                     <MenuItem value="">
                         <em>None</em>
                     </MenuItem>
                     {itemTypes.map(type => <MenuItem key={type.id} value={type.id}>{type.name}</MenuItem>)}
-                 </Select>
+                </Select>
                 }
                 <Button className={classes.submitButton} color='primary' variant='contained' onClick={onSubmit}>{chosenItem ? "Edit" : "Add"}</Button>
             </Paper>

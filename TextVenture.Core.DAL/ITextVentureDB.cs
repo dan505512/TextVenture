@@ -18,6 +18,8 @@ namespace TextVenture.DAL
 
         bool IsConnected { get; }
 
+        string GetPasswordHashForUser(string user);
+
         /// <summary>
         /// Gets a list of all the items in the DB
         /// </summary>

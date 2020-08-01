@@ -37,6 +37,17 @@ namespace TextVenture.DAL
 
         public bool IsConnected => _connection != null;
 
+        public string GetPasswordHashForUser(string user)
+        {
+            using var query = new NpgsqlCommand(USER_PASSWORD_QUERY, _connection);
+
+            query.Parameters.AddWithValue("user", user);
+            query.Prepare();
+
+            using var dataReader = query.ExecuteReader();
+            return dataReader.Read() ? dataReader.GetString(0) : null;
+        }
+
         public List<IItem> GetAllItems()
         {
             return PerformGenericGetAll(ITEMS_QUERY, GetItemFromRow);
@@ -382,7 +393,9 @@ namespace TextVenture.DAL
         private const string ADVENTURES_QUERY =
             "SELECT i.\"ID\", i.\"Name\", i.\"Description\", i.\"Starting_Location\" from public.\"Advanture\" i"; 
 
-        private const string ITEM_TYPES_QUERY = "SELECT i.\"ID\", i.\"Name\"from public.\"Item_Type\" i"; 
+        private const string ITEM_TYPES_QUERY = "SELECT i.\"ID\", i.\"Name\"from public.\"Item_Type\" i";
+
+        private const string USER_PASSWORD_QUERY = "SELECT \"Password\"\r\n\tFROM public.\"Admins\"\r\n\tWHERE \"Username\" = @user;";
 
         #endregion
 
