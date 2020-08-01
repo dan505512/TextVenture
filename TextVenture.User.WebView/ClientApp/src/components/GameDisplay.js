@@ -41,7 +41,7 @@ const useStyles = makeStyles(
         }
     }
 )
-
+// Missing player display.
 export const GameDisplay = ({ match }) => {
     const { id } = match.params;
     const [location, setLocation] = useState({});
@@ -174,6 +174,8 @@ export const GameDisplay = ({ match }) => {
         }
     }
 
+    const isInBattle = !!enemy.id;
+
     return (
         <div>
             <Typography variant='h2' component='h2'>{location.name}</Typography>
@@ -194,10 +196,10 @@ export const GameDisplay = ({ match }) => {
             <div className={classes.buttonsContainer}>
                 <Button className={classes.nonBlockingButton} onClick={enemy.id ? attackMonster : takeItem}>{enemy.id ? "Attack" : "Take Item"}</Button>
                 <Button className={classes.nonBlockingButton} onClick={usePotion}>Use potion</Button>
-                <NavLink tag={Link} to={`/game/${location.north}`} disabled={!location || !location.north} className={classes.blockingButton}>North</NavLink>
-                <NavLink tag={Link} to={`/game/${location.west}`} disabled={!location || !location.west} className={classes.nonBlockingButton}>West</NavLink>
-                <NavLink tag={Link} to={`/game/${location.east}`} disabled={!location || !location.east} className={classes.nonBlockingButton}>East</NavLink>
-                <NavLink tag={Link} to={`/game/${location.south}`} disabled={!location || !location.south} className={classes.blockingButton}>South</NavLink>
+                <NavLink tag={Link} to={`/game/${location.north}`} disabled={!location || !location.north || isInBattle} className={classes.blockingButton}>North</NavLink>
+                <NavLink tag={Link} to={`/game/${location.west}`} disabled={!location || !location.west || isInBattle} className={classes.nonBlockingButton}>West</NavLink>
+                <NavLink tag={Link} to={`/game/${location.east}`} disabled={!location || !location.east || isInBattle} className={classes.nonBlockingButton}>East</NavLink>
+                <NavLink tag={Link} to={`/game/${location.south}`} disabled={!location || !location.south || isInBattle} className={classes.blockingButton}>South</NavLink>
             </div>
         </div>
     )
