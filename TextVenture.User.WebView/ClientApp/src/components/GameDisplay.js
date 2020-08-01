@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Typography, makeStyles, Card } from '@material-ui/core';
+import { Typography, makeStyles, Card, Paper } from '@material-ui/core';
 import { NavLink, Button } from 'reactstrap';
 import _, { update } from 'lodash';
 
@@ -34,8 +34,9 @@ const useStyles = makeStyles(
         card: {
             maxWidth: '20%',
             minWidth: '15%',
-            marginLeft: '20%',
+            marginLeft: '10%',
             marginTop: '5%',
+            height: '20%',
             backgroundColor: '#c2cbd2',
             display: 'inline-block'
         }
@@ -107,7 +108,7 @@ export const GameDisplay = ({ match }) => {
     }
 
     // Monster has a range of damage. We get a random number in it.
-    const getMonsterAttack = () => Math.random() * (enemy.maxDamage - enemy.minDamage) + enemy.minDamage;
+    const getMonsterAttack = () => Math.floor(Math.random() * (enemy.maxDamage - enemy.minDamage) + enemy.minDamage);
 
     // Player has a base attack + all attack items
     const getPlayerAttack = () => {
@@ -133,7 +134,7 @@ export const GameDisplay = ({ match }) => {
         const updatedPlayer = _.clone(player);
         updatedPlayer.health = updatedPlayer.health - calculateMonsterDamage();
 
-        if(updatedPlayer.health <= 0) {
+        if (updatedPlayer.health <= 0) {
             window.alert('You died!');
             window.location.pathname = '/';
         }
@@ -178,20 +179,30 @@ export const GameDisplay = ({ match }) => {
 
     return (
         <div>
-            <Typography variant='h2' component='h2'>{location.name}</Typography>
-            <Typography variant='body1' component='p'>{location.description}</Typography>
+            <Paper>
+                <Typography variant='h2' component='h2'>{location.name}</Typography>
+                <Typography variant='body1' component='p'>{location.description}</Typography>
+        
+                <Card className={classes.card} variant='outlined'>
+                    <Typography variant='h3' component='h3'>Player</Typography>
+                    <Typography variant='body1' component='p'>Health: {player.health}</Typography>
+                    <ul>
+                        {_.map(player.items, item => <li>{item.name}</li>)}
+                    </ul>
+                </Card>
+                
+                <Card className={classes.card} variant='outlined'>
+                    <Typography variant='h3' component='h3'>{!item.id && 'No'} Item</Typography>
+                    <Typography variant='h4' component='h4'>{item.name}</Typography>
+                    <Typography variant='body1' component='p'>Power: {item.effectLevel}</Typography>
+                </Card>
 
-            {item.id && <Card className={classes.card} variant='outlined'>
-                <Typography variant='h3' component='h3'>Item</Typography>
-                <Typography variant='h4' component='h4'>{item.name}</Typography>
-                <Typography variant='body1' component='p'>Power: {item.effectLevel}</Typography>
-            </Card>}
-
-            {enemy.id && <Card className={classes.card} variant='outlined'>
-                <Typography variant='h3' component='h3'>Enemy</Typography>
-                <Typography variant='h4' component='h4'>{enemy.name}</Typography>
-                <Typography variant='body1' component='p'>Health: {enemy.health}</Typography>
-            </Card>}
+                <Card className={classes.card} variant='outlined'>
+                    <Typography variant='h3' component='h3'>{!enemy.id && 'No'} Enemy</Typography>
+                    <Typography variant='h4' component='h4'>{enemy.name}</Typography>
+                    <Typography variant='body1' component='p'>Health: {enemy.health}</Typography>
+                </Card>
+            </Paper>
 
             <div className={classes.buttonsContainer}>
                 <Button className={classes.nonBlockingButton} onClick={enemy.id ? attackMonster : takeItem}>{enemy.id ? "Attack" : "Take Item"}</Button>
