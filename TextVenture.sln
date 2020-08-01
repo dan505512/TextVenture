@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.29920.165
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextVenture.Core", "TextVenture.Core\TextVenture.Core.csproj", "{7E7089F5-C555-4B94-B613-D27FE177417E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextVenture.Tester", "TextVenture.Tester\TextVenture.Tester.csproj", "{06DE1636-07C0-4CF1-BBE6-21AD775EBFDC}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TextVenture.Admin.WebView", "TextVenture.Admin.WebView\TextVenture.Admin.WebView.csproj", "{F956704B-E0C1-44F3-9085-8C69B67AED5F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TextVenture.DAL", "TextVenture.Core.DAL\TextVenture.DAL.csproj", "{5C875247-49BD-417F-A048-D25FCED303CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextVenture.User.WebView", "TextVenture.User.WebView\TextVenture.User.WebView.csproj", "{D94F2C49-BD57-4904-A16C-42DA2D8D09DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +21,6 @@ Global
 		{7E7089F5-C555-4B94-B613-D27FE177417E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E7089F5-C555-4B94-B613-D27FE177417E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E7089F5-C555-4B94-B613-D27FE177417E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{06DE1636-07C0-4CF1-BBE6-21AD775EBFDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{06DE1636-07C0-4CF1-BBE6-21AD775EBFDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{06DE1636-07C0-4CF1-BBE6-21AD775EBFDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{06DE1636-07C0-4CF1-BBE6-21AD775EBFDC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F956704B-E0C1-44F3-9085-8C69B67AED5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F956704B-E0C1-44F3-9085-8C69B67AED5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F956704B-E0C1-44F3-9085-8C69B67AED5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{5C875247-49BD-417F-A048-D25FCED303CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C875247-49BD-417F-A048-D25FCED303CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C875247-49BD-417F-A048-D25FCED303CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D94F2C49-BD57-4904-A16C-42DA2D8D09DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D94F2C49-BD57-4904-A16C-42DA2D8D09DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D94F2C49-BD57-4904-A16C-42DA2D8D09DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D94F2C49-BD57-4904-A16C-42DA2D8D09DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
