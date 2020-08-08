@@ -18,7 +18,7 @@ const useStyles = makeStyles(
         buttonsContainer: {
             alignContent: 'center',
             marginLeft: '35%',
-            marginTop: '35%',
+            marginTop: '5%',
             position: 'sticky'
         },
         blockingButton: {
@@ -32,13 +32,16 @@ const useStyles = makeStyles(
             ...baseButtonStyle
         },
         card: {
-            maxWidth: '20%',
-            minWidth: '15%',
+            width: '20%',
             marginLeft: '10%',
             marginTop: '5%',
-            height: '20%',
+            height: '40%',
+            minHeight: '400px',
             backgroundColor: '#c2cbd2',
             display: 'inline-block'
+        },
+        infoContainer: {
+            minHeight: '600px'
         }
     }
 )
@@ -179,7 +182,7 @@ export const GameDisplay = ({ match }) => {
 
     return (
         <div>
-            <Paper>
+            <Paper className={classes.infoContainer}>
                 <Typography variant='h2' component='h2'>{location.name}</Typography>
                 <Typography variant='body1' component='p'>{location.description}</Typography>
         
@@ -192,7 +195,8 @@ export const GameDisplay = ({ match }) => {
                 </Card>
                 
                 <Card className={classes.card} variant='outlined'>
-                    <Typography variant='h3' component='h3'>{!item.id && 'No'} Item</Typography>
+                    <Typography variant='h3' component='h3'>{!item
+                    .id && 'No'} Item</Typography>
                     <Typography variant='h4' component='h4'>{item.name}</Typography>
                     <Typography variant='body1' component='p'>Power: {item.effectLevel}</Typography>
                 </Card>
